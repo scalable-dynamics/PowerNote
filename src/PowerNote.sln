@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.31903.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerNote", "PowerNote.csproj", "{A6B636F4-3028-4CAB-8A6D-906D713BCBE7}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.PowerPlatform.Formulas.Tools", "..\..\PowerApps-Language-Tooling\src\PAModel\Microsoft.PowerPlatform.Formulas.Tools.csproj", "{72FE2802-EE73-4DC0-820E-2AE66F3D4F73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerNote", "PowerNote.csproj", "{A6B636F4-3028-4CAB-8A6D-906D713BCBE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{A6B636F4-3028-4CAB-8A6D-906D713BCBE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6B636F4-3028-4CAB-8A6D-906D713BCBE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6B636F4-3028-4CAB-8A6D-906D713BCBE7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{72FE2802-EE73-4DC0-820E-2AE66F3D4F73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{72FE2802-EE73-4DC0-820E-2AE66F3D4F73}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{72FE2802-EE73-4DC0-820E-2AE66F3D4F73}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{72FE2802-EE73-4DC0-820E-2AE66F3D4F73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
