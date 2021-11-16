@@ -1,0 +1,9 @@
+﻿<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <PowerNote.Pages.Index />
+        <FocusOnNavigate RouteData="@routeData" Selector="#monaco-editor" />
+    </Found>
+    <NotFound>
+        <PowerNote.Pages.Index />
+    </NotFound>
+</Router>

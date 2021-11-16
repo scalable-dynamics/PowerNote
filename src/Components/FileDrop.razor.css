@@ -1,0 +1,27 @@
+﻿#file-drop {
+    position: absolute;
+    inset: 0;
+}
+
+    #file-drop form {
+        position: absolute;
+        inset: 0;
+        cursor: default;
+    }
+
+    #file-drop b {
+        color: white;
+        margin-left: 4px;
+        line-height: 30px;
+    }
+
+    #file-drop form:hover {
+        border: dashed 4px blue;
+        color: blue;
+    }
+
+    #file-drop label {
+        position: absolute;
+        inset: 0;
+        background: transparent;
+    }

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>PowerNote</title>
+    <base href="/" />
+    <link href="index.css" rel="stylesheet" />
+    <link href="PowerNote.styles.css" rel="stylesheet" />
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.2/dist/jstat.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/formulajs/formulajs@2.5.0/dist/formula.min.js"></script>
+    <script type="module" src="https://unpkg.com/@fluentui/web-components"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="app-loader">
+            <div class="ripple"></div>
+        </div>
+        <div class="app-start">
+            <h1>
+                <img src="powernote-50.png" />
+                PowerNote
+            </h1>
+            <dl>
+                <dt>Powered by:</dt>
+                <dd>
+                    <a href="https://blazor.net">
+                        Microsoft.AspNetCore.Components.WebAssembly (Blazor / .Net 6)
+                    </a>
+                </dd>
+                <dd>
+                    <a href="https://www.nuget.org/packages/Microsoft.Fast.Components.FluentUI">
+                        Microsoft.Fast.Components.FluentUI
+                    </a>
+                </dd>
+                <dd>
+                    <a href="https://www.nuget.org/packages/Microsoft.PowerFx.Core">
+                        Microsoft.PowerFx.Core
+                    </a>
+                </dd>
+                <dd>
+                    <a href="https://www.nuget.org/packages/Microsoft.PowerFx.Interpreter">
+                        Microsoft.PowerFx.Interpreter
+                    </a>
+                </dd>
+                <dd>
+                    <a href="https://github.com/microsoft/PowerApps-Language-Tooling">
+                        Microsoft.PowerPlatform.Formulas.Tools
+                    </a>
+                </dd>
+                <dd>
+                    <a href="https://microsoft.github.io/monaco-editor/index.html">
+                        Microsoft Monaco Editor (used in VS Code)
+                    </a>
+                </dd>
+                <dd>
+                    <a href="https://formulajs.info/">
+                        Formula JS (Excel Functions)
+                    </a>
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+﻿.sidebar-menu {
+    flex: 1;
+    order: 1;
+    border-right: outset 4px white;
+    background: #eee;
+}
+
+    .sidebar-menu h3 {
+        margin: 0;
+        text-align: center;
+        cursor: default;
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .sidebar-menu .go-back {
+        position: absolute;
+        line-height: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        color: navy;
+    }

@@ -1,0 +1,12 @@
+﻿@if (Loading)
+{
+    <div class="app-loader">
+        <div class="ripple"></div>
+    </div>
+}
+
+@code {
+    
+    [Parameter]
+    public bool Loading { get; set; }
+}

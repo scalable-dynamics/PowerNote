@@ -1,0 +1,57 @@
+﻿@inject IJSInProcessRuntime JSRuntime
+@inject FileManager Files
+@using System.IO
+
+<div id="file-drop">
+
+    <Loader Loading="Loading" />
+
+    @if (!Loading)
+    {
+        @ChildContent
+    }
+
+    <form>
+        <label for="file-input">
+            <InputFile id="file-input" OnChange="OnInputFileChange" multiple style="opacity:0" />
+        </label>
+    </form>
+
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public Action OnChange { get; set; }
+    
+    public bool Loading;
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        Loading = true;
+        StateHasChanged();
+
+        Console.WriteLine("OnInputFileChange: " + e.FileCount);
+        if(e.FileCount > 10)
+        {
+            Console.WriteLine("WARNING: Too many files were added: " + e.FileCount);
+        }
+
+        var selectedFiles = e.GetMultipleFiles();
+        var tooLarge = selectedFiles.Where(f => f.Size > 512_000).Select(f => f.Name).ToArray();
+
+        if(tooLarge.Any())
+        {
+            Console.WriteLine("WARNING: Files larger than 512000 bytes are too large; {0} files will be skipped", tooLarge.Length);
+        }
+
+        await Files.UploadFilesAsync(selectedFiles.Where(f => !tooLarge.Contains(f.Name)).Take(10).ToArray());
+        Files.ReadAppsFolder();
+        OnChange();
+
+        Loading = false;
+        StateHasChanged();
+    }
+}

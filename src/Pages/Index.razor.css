@@ -1,0 +1,129 @@
+﻿.power-note-app {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    inset: 0;
+    position: fixed;
+    background-color: #0B0D21;
+}
+
+    .power-note-app header {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        order: 1;
+        max-height: 70px;
+        background-color: #22264C;
+    }
+
+        .power-note-app header .title {
+            flex: 5;
+            order: 1;
+            margin: 0;
+            line-height: 70px;
+            cursor: default;
+        }
+
+        .power-note-app header .files {
+            flex: 2;
+            order: 2;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .power-note-app header .files .file-types dl {
+                margin: 0;
+            }
+
+            .power-note-app header .files .file-types dt {
+                margin: 10px 0;
+            }
+
+            .power-note-app header .files.full-screen {
+                inset: 0;
+                position: fixed;
+                z-index: 1;
+            }
+
+                .power-note-app header .files.full-screen .file-types {
+                    position: relative;
+                    margin: 50px auto;
+                    padding: 0 30px;
+                    height: 250px;
+                    width: 350px;
+                    background-color: #0B0D21;
+                    border: solid 4px #45496D;
+                }
+
+                    .power-note-app header .files.full-screen .file-types img {
+                        width: 40px;
+                    }
+
+                    .power-note-app header .files.full-screen .file-types i {
+                        font-size: .8em;
+                        line-height: 30px;
+                        color: #3E3E42;
+                    }
+
+            .power-note-app header .files.top-right .file-types img {
+                width: 20px;
+            }
+
+            .power-note-app header .files.top-right .file-types dl {
+                text-align: right;
+            }
+
+            .power-note-app header .files.top-right .file-types dt {
+                margin-right: 10px;
+                font-size: .9em;
+            }
+
+            .power-note-app header .files.top-right .file-types dd {
+                float: right;
+                margin-right: 10px;
+                margin-inline-start: 0;
+                white-space: nowrap;
+                font-size: .8em;
+            }
+
+            .power-note-app header .files.top-right .file-types i {
+                display: none;
+            }
+
+    .power-note-app .app-object {
+        display: flex;
+        flex-direction: row;
+    }
+
+        .power-note-app .app-object span {
+            flex: 10;
+            flex-grow: inherit;
+            line-height: 32px;
+        }
+
+        .power-note-app .app-object *:last-child {
+            flex: 1;
+            width: 30px;
+        }
+
+    .power-note-app main {
+        flex: 10;
+        display: flex;
+        flex-direction: row;
+        order: 2;
+    }
+
+        .power-note-app main aside {
+            flex: 1;
+            order: 1;
+            min-width: 250px;
+            max-width: 350px;
+            background-color: #0B0D21;
+            border-right: solid 4px #45496D;
+            overflow: auto;
+        }
+
+        .power-note-app main .content {
+            flex: 10;
+            order: 2;
+        }

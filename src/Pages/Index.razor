@@ -1,0 +1,343 @@
+﻿@page "/"
+@inject IJSInProcessRuntime JSRuntime
+@inject PowerFxHost Host
+@inject FileManager Files
+@inject UrlManager Url
+@inject AppPreviewer AppPreview
+@using System.Text
+
+<PageTitle>PowerNote</PageTitle>
+
+<FluentDesignSystemProvider BaseLayerLuminance="(float)0.15">
+
+    <div class="power-note-app">
+
+        <header>
+            <h1 class="title">
+                <img src="powernote-50.png" />
+                PowerNote
+            </h1>
+            <div class="@FileDropStyle">
+                <FileDrop OnChange="OnFilesAdded">
+                    <div class="file-types">
+                        <dl>
+                            @if (ShowApps)
+                            {
+                                <dt>Drop files here</dt>
+                            }
+                            else
+                            {
+                                <dt>Drop files here to get started</dt>
+                            }
+                            <dd>
+                                <img src="images/powerapps.png" alt="Power Apps" />
+                                Canvas Apps (.msapp)
+                            </dd>
+                            <dd>
+                                <img src="images/powerautomate.png" alt="Power Automate" />
+                                Cloud Flows (.json)
+                            </dd>
+                            <dd>
+                                <img src="images/excel.png" alt="Excel" />
+                                Excel Documents (.xlsx)
+                            </dd>
+                            <dd>
+                                <img src="images/dataverse.png" alt="Dataverse" />
+                                Dataverse Solutions (.zip)
+                            </dd>
+                            @if (!ShowApps)
+                            {
+                                <dt>
+                                    <small>
+                                        Or press ESC to use the Power Fx editor without a file
+                                    </small>
+                                </dt>
+                            }
+                        </dl>
+                        <i>Note: Files must be smaller than 512kb at this time.</i><br />
+                    </div>
+                </FileDrop>
+            </div>
+        </header>
+
+        <main>
+
+            <div class="content">
+                <Editor Code="@Code"
+                        OnChange="DotNet.invokeMethod('PowerNote','CheckPowerFxCode',value)"
+                        OnHover="DotNet.invokeMethod('PowerNote','ShowPowerFxCode',value)"
+                        OnSuggest="DotNet.invokeMethod('PowerNote','SuggestPowerFxCode',value)"
+                        OnSave="DotNet.invokeMethod('PowerNote','SaveMonacoEditorValue',value)"
+                        OnExecute="DotNet.invokeMethod('PowerNote','ExecutePowerFxCode',value)"
+                        OnPreview="DotNet.invokeMethod('PowerNote','PreviewPowerFxCode',value)" />
+            </div>
+
+            @if (ShowApps)
+            {
+                <aside>
+                    @if (SelectedApp == null)
+                    {
+                        <h3>Select an App</h3>
+                        <Menu Items="Apps" OnSelect="onSelectApp" />
+                    }
+                    else if (SelectedAppComponent == null)
+                    {
+                        if (Apps.Length > 1)
+                        {
+                            <FluentAnchor class="back" onclick="@(()=> clearSelectedApp())" href="">
+                                &#x2B9C; Back
+                            </FluentAnchor>
+                        }
+                        <h2>@SelectedApp.Name</h2>
+                        <h3>Select an App Component</h3>
+                        <Menu Items="Components" OnSelect="onSelectAppComponent" />
+                    }
+                    else
+                    {
+                        <FluentAnchor class="back" onclick="@(()=> clearSelectedComponent())" href="">
+                            &#x2B9C; Back
+                        </FluentAnchor>
+                        <h2>@SelectedAppComponent.Name</h2>
+                        <h3>Select an Object</h3>
+                        <Menu Items="Objects" OnSelect="onSelectObject">
+                            <ItemTemplate Context="item">
+                                <div class="app-object">
+                                    <span>@item.Name</span>
+                                    <FluentAnchor class="preview" onclick="@(()=> showObjectPreview())" href="">
+                                        &#x27A4;
+                                    </FluentAnchor>
+                                </div>
+                            </ItemTemplate>
+                        </Menu>
+                    }
+                </aside>
+            }
+        </main>
+
+        @if (ShowPreview)
+        {
+            <Preview Html="@Output" OnClose="hideObjectPreview" />
+        }
+
+    </div>
+
+</FluentDesignSystemProvider>
+
+@code {
+    private static PowerFxHost _host;
+    private static Action _showEditor;
+    private static Action<string> _onSaveCode;
+    private static Action<CodeExecutionResult> _showPreview;
+
+    [JSInvokable("SaveMonacoEditorValue")]
+    public static void SaveCode(string code)
+    {
+        _onSaveCode(code);
+    }
+
+    [JSInvokable("ExecutePowerFxCode")]
+    public static object ExecuteCode(string code)
+    {
+        var result = _host.Execute(code);
+        return new
+        {
+            code = code.Trim(),
+            name = result.Result.Name,
+            text = result.Output,
+            type = result.Result.Value?.Type.GetType().Name ?? "Error"
+        };
+    }
+
+    [JSInvokable("CheckPowerFxCode")]
+    public static object CheckCode(string code)
+    {
+        var check = _host.Check(code);
+        return new
+        {
+            code = code.Trim(),
+            name = check.Name,
+            text = check.Description,
+            type = check.Type?.GetType().Name ?? "Error",
+            errors = check.Errors?.Select(e => new
+            {
+                text = e.Text,
+                description = e.Description,
+                start = e.Start,
+                end = e.End
+            }).ToArray()
+        };
+    }
+
+    [JSInvokable("ShowPowerFxCode")]
+    public static object ShowCode(string code)
+    {
+        var suggestion = _host.Show(code);
+        if (suggestion != null)
+        {
+            return new
+            {
+                text = suggestion.Text,
+                description = suggestion.Description,
+                startColumn = suggestion.Start,
+                endColumn = suggestion.End
+            };
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    [JSInvokable("SuggestPowerFxCode")]
+    public static object[] SuggestCode(string code)
+    {
+        return _host.Suggest(code)?.Select(s => new
+        {
+            text = s.Text,
+            description = s.Description,
+            startColumn = s.Start,
+            endColumn = s.End
+        }).ToArray();
+    }
+
+    [JSInvokable("ShowPowerFxEditor")]
+    public static void ShowEditor()
+    {
+        _showEditor();
+    }
+
+    public record CodeExecutionResult(string code,string name, string text, string type);
+
+    [JSInvokable("PreviewPowerFxCode")]
+    public static void PreviewCode(CodeExecutionResult result)
+    {
+        _showPreview(result);
+    }
+
+    public PowerApp[] Apps;
+    public PowerAppComponent[] Components;
+    public PowerAppComponentObject[] Objects;
+    public PowerApp SelectedApp;
+    public PowerAppComponent SelectedAppComponent;
+
+    private string Code;
+    private string Output;
+    private bool ShowApps;
+    private bool ShowPreview;
+    private string FileDropStyle;
+
+    public void showEditor()
+    {
+        if (Apps == null)
+        {
+            Code = PowerFxSample.Code;
+            FileDropStyle = "files top-right";
+            StateHasChanged();
+        }
+    }
+
+    public void OnFilesAdded()
+    {
+        Files.ReadAppsFolder();
+        Apps = Files.GetPowerApps();
+        ShowApps = Apps.Any();
+        if (Apps.Length == 1)
+        {
+            SelectedApp = Apps.First();
+            Components = SelectedApp.Components;
+        }
+        FileDropStyle = "files top-right";
+        StateHasChanged();
+    }
+
+    private void onSaveCode(string code)
+    {
+        var bytes = System.Text.Encoding.UTF8.GetBytes(code);
+        Url.SetUrl(UrlManager.CreateUrl(bytes));
+    }
+
+    private void onSelectApp(PowerApp app)
+    {
+        SelectedApp = app;
+        Components = app.Components;
+        StateHasChanged();
+        Url.SetUrl(Files.GetAppUrl(app));
+    }
+
+    private void onSelectAppComponent(PowerAppComponent component)
+    {
+        SelectedAppComponent = component;
+        Objects = component.Objects;
+        StateHasChanged();
+    }
+
+    private void onSelectObject(PowerAppComponentObject obj)
+    {
+        Code = AppPreview.GetObjectTable(SelectedAppComponent, obj);
+        Output = AppPreview.GetObjectPreview(SelectedAppComponent, obj);
+        StateHasChanged();
+    }
+
+    private void showObjectPreview()
+    {
+        ShowPreview = true;
+        StateHasChanged();
+    }
+
+    public void showPreview(CodeExecutionResult result)
+    {
+        if (result.type == "Error")
+        {
+            Output = $"<div class=\"powerfx-error\">{result.text}</div>";
+        }
+        else
+        {
+            Output = result.text;
+        }
+        ShowPreview = true;
+        StateHasChanged();
+    }
+
+    private void hideObjectPreview()
+    {
+        ShowPreview = false;
+        StateHasChanged();
+    }
+
+    private void clearSelectedApp()
+    {
+        SelectedApp = null;
+        SelectedAppComponent = null;
+        Components = null;
+        Objects = null;
+        StateHasChanged();
+    }
+
+    private void clearSelectedComponent()
+    {
+        SelectedAppComponent = null;
+        Objects = null;
+        StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        _host = Host;
+        _showEditor = showEditor;
+        _showPreview = showPreview;
+        _onSaveCode = onSaveCode;
+
+        FileDropStyle = "files full-screen";
+
+        Url.ReadUrl(OnFilesAdded);
+
+        Code = Files.GetLoadedCode();
+
+        JSRuntime.InvokeVoid("eval", @"window.onkeyup = function(e) {
+    if (e.key === 'Escape') {
+    DotNet.invokeMethod('PowerNote', 'ShowPowerFxEditor')
+    window.onkeyup = null
+    }
+}");
+    }
+}

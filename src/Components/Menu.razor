@@ -1,0 +1,32 @@
+﻿@typeparam TItem
+
+@if (Items?.Count() > 0)
+{
+    <FluentTreeView>
+        @foreach (var item in Items)
+        {
+            <FluentTreeItem onclick="@(()=> OnSelect(item))">
+                @if(ItemTemplate != null)
+                {
+                    @(ItemTemplate(item))
+                }
+                else
+                {
+                    @(item.ToString())
+                }
+            </FluentTreeItem>
+        }
+    </FluentTreeView>
+}
+
+@code {
+
+    [Parameter]
+    public Action<TItem> OnSelect { get; set; }
+
+    [Parameter]
+    public IEnumerable<TItem> Items { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem> ItemTemplate { get; set; }
+}

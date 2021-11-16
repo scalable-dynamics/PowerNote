@@ -1,0 +1,35 @@
+﻿
+.app-preview {
+    position: fixed;
+    inset: 20%;
+    overflow: auto;
+    background: white;
+    border: solid 2px gray
+}
+
+    .app-preview .close-button {
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        margin-top: -20px;
+        cursor: pointer;
+        font-size: 20px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        color: white;
+        background-color: red;
+        border-radius: 50%;
+    }
+
+    .app-preview .powerapp-component {
+        position: relative;
+        overflow: hidden;
+        border: solid 1px pink;
+        white-space: nowrap;
+    }
+
+        .app-preview .powerapp-component:hover {
+            overflow: auto;
+        }

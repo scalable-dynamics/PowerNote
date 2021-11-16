@@ -1,0 +1,132 @@
+﻿
+html, body {
+    font-family: sans-serif;
+    background-color: #161A42;
+    color: #DADBE2;
+    overflow: hidden;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+a {
+    color: #DADBE2 !important;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: rgba(44,0,255,100) !important;
+        text-decoration: underline;
+    }
+
+.powerfx-error {
+    color: rgba(255,40,0,145) !important;
+    text-decoration: underline;
+}
+
+.app-start {
+    position: relative;
+    margin: 20px auto;
+    padding: 20px;
+    width: 450px;
+    background-color: #0B0D21;
+    border: solid 4px #45496D;
+}
+
+    .app-start dt {
+        font-weight: bold;
+        color: white;
+        margin: 10px 0;
+    }
+
+    .app-start dd a {
+        color: white;
+    }
+
+h1 {
+    color: white;
+}
+
+    h1 img {
+        width: 40px;
+        vertical-align: middle;
+        margin: 0 4px;
+    }
+
+dl {
+    font-style: italic;
+}
+
+dt b {
+    font-style: normal;
+}
+
+dd img {
+    width: 30px;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+.app-loader {
+    position: fixed;
+    inset: 0;
+    background-color: #1E1E1E;
+    opacity: .3;
+    z-index:100;
+}
+
+    .app-loader .ripple {
+        display: inline-block;
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin: 300px 50%;
+    }
+
+        .app-loader .ripple:before,
+        .app-loader .ripple:after {
+            content: '';
+            position: absolute;
+            border: 4px solid #45496D;
+            opacity: 1;
+            border-radius: 50%;
+            animation: ripple-loader 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+        }
+
+        .app-loader .ripple:after {
+            animation-delay: -0.7s;
+        }
+
+@keyframes ripple-loader {
+    0% {
+        top: 56px;
+        left: 56px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+
+    100% {
+        top: 0px;
+        left: 0px;
+        width: 112px;
+        height: 112px;
+        opacity: 0;
+    }
+}

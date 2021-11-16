@@ -1,0 +1,18 @@
+﻿
+
+<div class="app-preview">
+    <FluentAnchor class="close-button" onclick="@OnClose" href="">
+        &#128473;
+    </FluentAnchor>
+    @(
+        (MarkupString)Html
+    )
+</div>
+
+@code {
+    [Parameter]
+    public string Html { get; set; }
+
+    [Parameter]
+    public Action OnClose { get; set; }
+}

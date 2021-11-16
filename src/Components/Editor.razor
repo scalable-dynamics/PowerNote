@@ -1,0 +1,52 @@
+﻿@inject IJSInProcessRuntime JSRuntime
+@implements IAsyncDisposable
+
+<div id="monaco-editor"></div>
+
+@code {
+    private Task<IJSObjectReference> _monacoEditor;
+    private Task<IJSObjectReference> MonacoEditor => _monacoEditor ??= JSRuntime.InvokeAsync<IJSObjectReference>("import", $"./scripts/MonacoEditor.js?{DateTime.UtcNow.ToFileTime()}").AsTask();
+
+    [Parameter]
+    public string Code { get; set; }
+
+    [Parameter]
+    public string OnChange { get; set; }
+
+    [Parameter]
+    public string OnHover { get; set; }
+
+    [Parameter]
+    public string OnSuggest { get; set; }
+
+    [Parameter]
+    public string OnSave { get; set; }
+
+    [Parameter]
+    public string OnExecute { get; set; }
+
+    [Parameter]
+    public string OnPreview { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var monacoEditor = await MonacoEditor;
+            await monacoEditor.InvokeVoidAsync("loadMonacoEditor", CancellationToken.None, "monaco-editor", Code, OnExecute, OnHover, OnSuggest, OnSave, OnExecute, OnPreview);
+        }
+        else
+        {
+            var monacoEditor = await MonacoEditor;
+            await monacoEditor.InvokeVoidAsync("updateMonacoEditor", CancellationToken.None, Code);
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_monacoEditor != null) {
+            var monacoEditor = await _monacoEditor;
+            await monacoEditor.DisposeAsync();
+        }
+    }
+}
