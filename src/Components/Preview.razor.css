@@ -3,11 +3,12 @@
     position: fixed;
     inset: 20%;
     overflow: auto;
-    background: white;
-    border: solid 2px gray
+    background-color: #161A42;
+    color: #DADBE2;
+    border: solid 4px #45496D;
 }
 
-    .app-preview .close-button {
+    .app-preview *:first-child {
         position: fixed;
         width: 40px;
         height: 40px;
@@ -26,7 +27,7 @@
     .app-preview .powerapp-component {
         position: relative;
         overflow: hidden;
-        border: solid 1px pink;
+        border: solid 1px rgba(44,0,255,100);
         white-space: nowrap;
     }
 

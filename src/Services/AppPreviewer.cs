@@ -24,16 +24,14 @@ public class AppPreviewer
         "BorderThickness"
     };
 
-    public PowerAppPreview GetAppPreview(PowerApp app, string componentName)
+    public PowerAppPreview GetAppComponentPreview(PowerApp app, PowerAppComponent component)
     {
         var code = new StringBuilder();
         code.AppendLine();
 
         var html = new StringBuilder();
         html.AppendLine("<div class=\"powerapp-preview\">");
-        html.AppendLine("<a class=\"close-button\" onclick=\"parentNode.parentNode.removeChild(parentNode)\">X</a>");
 
-        var component = app.Components.SkipWhile(c => c.Name != componentName).First();
         foreach (var obj in component.Objects)
         {
             if (!obj.Name.StartsWith("Screen"))
@@ -49,7 +47,7 @@ public class AppPreviewer
         var powerfx = code.ToString();
         Console.WriteLine("SetOutput: " + preview);
         Console.WriteLine("SetCode: " + powerfx);
-        return new(app.Name, componentName, preview, powerfx);
+        return new(app.Name, component.Name, preview, powerfx);
     }
 
     public string GetObjectTable(PowerAppComponent component, PowerAppComponentObject obj)

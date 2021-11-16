@@ -91,6 +91,7 @@
             }
 
     .power-note-app .app-object {
+        flex: 1;
         display: flex;
         flex-direction: row;
     }
@@ -121,6 +122,7 @@
             background-color: #0B0D21;
             border-right: solid 4px #45496D;
             overflow: auto;
+            max-height: 100vh;
         }
 
         .power-note-app main .content {

@@ -21,14 +21,7 @@
                 <FileDrop OnChange="OnFilesAdded">
                     <div class="file-types">
                         <dl>
-                            @if (ShowApps)
-                            {
-                                <dt>Drop files here</dt>
-                            }
-                            else
-                            {
-                                <dt>Drop files here to get started</dt>
-                            }
+                            <dt>Click here to add files</dt>
                             <dd>
                                 <img src="images/powerapps.png" alt="Power Apps" />
                                 Canvas Apps (.msapp)
@@ -97,7 +90,14 @@
                         <FluentAnchor class="back" onclick="@(()=> clearSelectedComponent())" href="">
                             &#x2B9C; Back
                         </FluentAnchor>
-                        <h2>@SelectedAppComponent.Name</h2>
+                        <h2>
+                            <div class="app-object">
+                                <span>@SelectedAppComponent.Name</span>
+                                <FluentAnchor class="preview" onclick="@(()=> showComponentPreview())" href="">
+                                    &#x27A4;
+                                </FluentAnchor>
+                            </div>
+                        </h2>
                         <h3>Select an Object</h3>
                         <Menu Items="Objects" OnSelect="onSelectObject">
                             <ItemTemplate Context="item">
@@ -219,6 +219,7 @@
     public PowerAppComponentObject[] Objects;
     public PowerApp SelectedApp;
     public PowerAppComponent SelectedAppComponent;
+    public PowerAppComponentObject SelectedObject;
 
     private string Code;
     private string Output;
@@ -273,15 +274,28 @@
 
     private void onSelectObject(PowerAppComponentObject obj)
     {
+        SelectedObject = obj;
         Code = AppPreview.GetObjectTable(SelectedAppComponent, obj);
-        Output = AppPreview.GetObjectPreview(SelectedAppComponent, obj);
+        StateHasChanged();
+    }
+
+    private void showComponentPreview()
+    {
+        var preview = AppPreview.GetAppComponentPreview(SelectedApp, SelectedAppComponent);
+        Code = preview.Code;
+        Output = preview.Html;
+        ShowPreview = true;
         StateHasChanged();
     }
 
     private void showObjectPreview()
     {
-        ShowPreview = true;
-        StateHasChanged();
+        if (SelectedObject != null)
+        {
+            Output = AppPreview.GetObjectPreview(SelectedAppComponent, SelectedObject);
+            ShowPreview = true;
+            StateHasChanged();
+        }
     }
 
     public void showPreview(CodeExecutionResult result)
@@ -292,7 +306,7 @@
         }
         else
         {
-            Output = result.text;
+            Output = result.text ?? result.name ?? result.type;
         }
         ShowPreview = true;
         StateHasChanged();
