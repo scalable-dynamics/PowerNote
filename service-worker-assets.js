@@ -301,7 +301,7 @@
       "url": "index.css"
     },
     {
-      "hash": "sha256-fV+wM4Ix4q1FgAhUnQ92sdgb8Ggr\/rzZxqoH74JyB3Q=",
+      "hash": "sha256-IKIVFYa076Oq3jxD8O4NK/PyKqmrPAzYhd2kuccSv1k=",
       "url": "index.html"
     },
     {
