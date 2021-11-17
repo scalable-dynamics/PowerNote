@@ -3,6 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
+    paths:
+      - "src/**"
 
 jobs:
   deploy-to-github-pages:
