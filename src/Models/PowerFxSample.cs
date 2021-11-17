@@ -2,14 +2,21 @@
 internal static class PowerFxSample
 {
     public static string Code = @"
-Set(Name, ""PowerNote"")
+Set( Radius, 10 )
 
-PowerFx = Name & "" is amazing!""
+Pi = 3.14159265359
 
-PowerFx
+Area = Pi * Radius * Radius
 
-Set(Name, ""Power Fx"")
+Set( Radius, 300 )
 
-PowerFx
+Circumference = 2 * Pi * Radius
+
+Set( Radius, 40 )
+
+Area
+
+Circumference
+
 ";
 }

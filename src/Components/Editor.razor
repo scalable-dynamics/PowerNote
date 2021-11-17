@@ -33,7 +33,7 @@
         if (firstRender)
         {
             var monacoEditor = await MonacoEditor;
-            await monacoEditor.InvokeVoidAsync("loadMonacoEditor", CancellationToken.None, "monaco-editor", Code, OnExecute, OnHover, OnSuggest, OnSave, OnExecute, OnPreview);
+            await monacoEditor.InvokeVoidAsync("loadMonacoEditor", CancellationToken.None, "monaco-editor", Code, OnChange, OnHover, OnSuggest, OnSave, OnExecute, OnPreview);
         }
         else
         {

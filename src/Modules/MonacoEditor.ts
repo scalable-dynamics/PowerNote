@@ -99,7 +99,7 @@ interface CodeExecutionResult {
     code: string
     name: string
     text: string
-    type: 'Blank' | 'Boolean' | 'Number' | 'String' | 'Time' | 'Date' | 'DateTime' | 'DateTimeNoTimeZone' | 'OptionSetValue' | 'Error'
+    type: 'BlankType' | 'BooleanType' | 'NumberType' | 'StringType' | 'TimeType' | 'DateType' | 'DateTimeType' | 'DateTimeNoTimeZoneType' | 'OptionSetValueType' | 'Error'
     errors: {
         text: string
         description: string
@@ -132,7 +132,7 @@ export function loadMonacoEditor(id: string, code: string, onChangeHandler: stri
     const onSuggest = createHandler<CodeSuggestionResult[]>(onSuggestHandler)
     const onSave = createHandler<void>(onSaveHandler)
     const onExecute = createHandler<CodeExecutionResult>(onExecuteHandler)
-    const onPreview = createHandler<void, CodeExecutionResult>(onPreviewHandler)
+    const onPreview = createHandler<void>(onPreviewHandler)
     const container = document.getElementById(id)
     const language = "PowerFx"
     const languageExt = "pfx"
@@ -187,7 +187,7 @@ export function loadMonacoEditor(id: string, code: string, onChangeHandler: stri
                         }
                     }
                     const content = model.getLineContent(lineNumber)
-                    if (line > 0 && content && content.trim()) {
+                    if (content && content.trim()) {
                         return (line + 1).toString()
                     } else {
                         return ""
@@ -320,13 +320,15 @@ class MonacoCodeLensProvider implements monaco.editor.CodeLensProvider {
         private editor: monaco.editor.IStandaloneCodeEditor,
         private check: (text: string) => CodeExecutionResult,
         private execute: (text: string) => CodeExecutionResult,
-        preview: (result: CodeExecutionResult) => void
+        preview: (output: string) => void
     ) {
-        this._errorCommand = editor.addCommand(0, function (result: CodeExecutionResult) {
-            console.log("Error", result)
-            preview(result)
+        this._errorCommand = editor.addCommand(0, function (_,result: CodeExecutionResult) {
+            preview("Error: " + result.text)
         }, '');
-        this._previewCommand = editor.addCommand(0, preview, '');
+        this._previewCommand = editor.addCommand(1, function (_,result: CodeExecutionResult) {
+            console.log('_previewCommand',arguments)
+            preview(result.text?.trim())
+        }, '');
     }
     onDidChange?: monaco.editor.IEvent<this>
     resolveCodeLens?(model: monaco.editor.ITextModel, codeLens: monaco.editor.CodeLens) {
@@ -340,10 +342,14 @@ class MonacoCodeLensProvider implements monaco.editor.CodeLensProvider {
             const lineNum = lineIndex + 1
             const expr = lines[lineIndex]
             if (expr) {
+                //TODO: Only process lines that have changed... (memoization)
                 const result = await this.check(expr)
+                console.log("check", { ...result })
                 if (result.errors) {
                     const errors: string[] = []
                     for (var err of result.errors) {
+                        console.log("error", err.description)
+
                         decorations.push({
                             id: `error_${lineNum}_${err.start}_${err.end}`,
                             range: new monaco.Range(lineNum, err.start + 1, lineNum, err.end + 1),
@@ -365,14 +371,24 @@ class MonacoCodeLensProvider implements monaco.editor.CodeLensProvider {
                             arguments: [result]
                         }
                     })
-                } else {
+                } else if (result.type !== "BlankType") {
                     const output = await this.execute(expr)
+                    console.log("execute", { ...output })
+                    decorations.push({
+                        id: `type_${lineNum}`,
+                        range: new monaco.Range(lineNum, 1, lineNum, 1),
+                        options: {
+                            inlineClassName: "powerfx-type",
+                            hoverMessage: { value: result.type }
+                        }
+                    })
                     lenses.push({
                         range: new monaco.Range(lineNum, 1, lineNum, 1),
                         id: `preview_${lineNum}`,
                         command: {
                             id: this._previewCommand,
-                            title: "Preview",
+                            title: "View Result",
+                            tooltip: result.text,
                             arguments: [output]
                         }
                     })

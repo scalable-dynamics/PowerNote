@@ -127,7 +127,7 @@
     private static PowerFxHost _host;
     private static Action _showEditor;
     private static Action<string> _onSaveCode;
-    private static Action<CodeExecutionResult> _showPreview;
+    private static Action<string> _showPreview;
 
     [JSInvokable("SaveMonacoEditorValue")]
     public static void SaveCode(string code)
@@ -206,12 +206,10 @@
         _showEditor();
     }
 
-    public record CodeExecutionResult(string code,string name, string text, string type);
-
     [JSInvokable("PreviewPowerFxCode")]
-    public static void PreviewCode(CodeExecutionResult result)
+    public static void PreviewCode(string output)
     {
-        _showPreview(result);
+        _showPreview(output);
     }
 
     public PowerApp[] Apps;
@@ -298,16 +296,10 @@
         }
     }
 
-    public void showPreview(CodeExecutionResult result)
+    public void showPreview(string output)
     {
-        if (result.type == "Error")
-        {
-            Output = $"<div class=\"powerfx-error\">{result.text}</div>";
-        }
-        else
-        {
-            Output = result.text ?? result.name ?? result.type;
-        }
+        Console.WriteLine("showPreview: " + output);
+        Output = output;
         ShowPreview = true;
         StateHasChanged();
     }

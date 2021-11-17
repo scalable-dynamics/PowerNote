@@ -35,6 +35,11 @@ a {
         text-decoration: underline;
     }
 
+.powerfx-type {
+    color: rgba(44,0,255,100) !important;
+    font-weight: bold;
+}
+
 .powerfx-error {
     color: rgba(255,40,0,145) !important;
     text-decoration: underline;

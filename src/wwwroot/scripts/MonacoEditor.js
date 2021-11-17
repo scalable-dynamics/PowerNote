@@ -64,7 +64,7 @@ export function loadMonacoEditor(id, code, onChangeHandler, onHoverHandler, onSu
                         }
                     }
                     const content = model.getLineContent(lineNumber);
-                    if (line > 0 && content && content.trim()) {
+                    if (content && content.trim()) {
                         return (line + 1).toString();
                     }
                     else {
@@ -186,11 +186,13 @@ class MonacoCodeLensProvider {
         this.editor = editor;
         this.check = check;
         this.execute = execute;
-        this._errorCommand = editor.addCommand(0, function (result) {
-            console.log("Error", result);
-            preview(result);
+        this._errorCommand = editor.addCommand(0, function (_, result) {
+            preview("Error: " + result.text);
         }, '');
-        this._previewCommand = editor.addCommand(0, preview, '');
+        this._previewCommand = editor.addCommand(1, function (_, result) {
+            console.log('_previewCommand', arguments);
+            preview(result.text?.trim());
+        }, '');
     }
     resolveCodeLens(model, codeLens) {
         return codeLens;
@@ -204,9 +206,11 @@ class MonacoCodeLensProvider {
             const expr = lines[lineIndex];
             if (expr) {
                 const result = await this.check(expr);
+                console.log("check", { ...result });
                 if (result.errors) {
                     const errors = [];
                     for (var err of result.errors) {
+                        console.log("error", err.description);
                         decorations.push({
                             id: `error_${lineNum}_${err.start}_${err.end}`,
                             range: new monaco.Range(lineNum, err.start + 1, lineNum, err.end + 1),
@@ -229,14 +233,24 @@ class MonacoCodeLensProvider {
                         }
                     });
                 }
-                else {
+                else if (result.type !== "BlankType") {
                     const output = await this.execute(expr);
+                    console.log("execute", { ...output });
+                    decorations.push({
+                        id: `type_${lineNum}`,
+                        range: new monaco.Range(lineNum, 1, lineNum, 1),
+                        options: {
+                            inlineClassName: "powerfx-type",
+                            hoverMessage: { value: result.type }
+                        }
+                    });
                     lenses.push({
                         range: new monaco.Range(lineNum, 1, lineNum, 1),
                         id: `preview_${lineNum}`,
                         command: {
                             id: this._previewCommand,
-                            title: "Preview",
+                            title: "View Result",
+                            tooltip: result.text,
                             arguments: [output]
                         }
                     });

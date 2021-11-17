@@ -135,51 +135,54 @@ public class PowerFxHost
         try
         {
             var check = checkExpression(expr);
-            if (check.isAssignment)
+            if (check.check.IsSuccess)
             {
-                FormulaValue value;
-                if (!_variables.Contains(check.name))
+                if (check.isAssignment)
                 {
-                    value = _engine.Eval(check.text);
-                    _variables.Add(check.name);
+                    if (!_variables.Contains(check.name))
+                    {
+                        _variables.Add(check.name);
+                    }
+                    var value = _engine.Eval(check.text);
+                    _engine.UpdateVariable(check.name, value);
+                    var result = createResult(check.name, value);
+                    addLine($"{check.name} -> {result.FormattedText}");
+                    return (result, output.ToString());
+                }
+                else if (check.isFormula)
+                {
+                    if (!_formulas.Contains(check.name))
+                    {
+                        _engine.SetFormula(check.name, check.text,
+                            (name, value) => addLine(createResult(name, value).FormattedText)
+                        );
+                        _formulas.Add(check.name);
+                    }
+                    var value = _engine.GetValue(check.name);
+                    var result = createResult(check.name, value);
+                    addLine($"{check.name} = {result.FormattedText}");
+                    return (result, output.ToString());
+                }
+                else if (check.isExpression)
+                {
+                    var value = _engine.Eval(check.text);
+                    var result = createResult(check.name, value);
+                    addLine(result.FormattedText);
+                    return (result, output.ToString());
+                }
+                else if (!string.IsNullOrWhiteSpace(expr))
+                {
+                    return (createError("Not Recognized"), output.ToString());
                 }
                 else
                 {
-                    value = _engine.GetValue(check.name);
+                    return (createError("Empty"), output.ToString());
                 }
-                _engine.UpdateVariable(check.name, value);
-                var result = createResult(check.name, value);
-                addLine($"{check.name} = {result.FormattedText}");
-                return (result, output.ToString());
-            }
-            else if (check.isFormula)
-            {
-                if (!_formulas.Contains(check.name))
-                {
-                    _engine.SetFormula(check.name, check.text,
-                        (name, value) => addLine(createResult(name, value).FormattedText)
-                    );
-                    _formulas.Add(check.name);
-                }
-                var value = _engine.GetValue(check.name);
-                var result = createResult(check.name, value);
-                addLine($"{check.name} = {result.FormattedText}");
-                return (result, output.ToString());
-            }
-            else if (check.isExpression)
-            {
-                var value = _engine.Eval(check.text);
-                var result = createResult(check.name, value);
-                addLine(result.FormattedText);
-                return (result, output.ToString());
-            }
-            else if (!string.IsNullOrWhiteSpace(expr))
-            {
-                return (createError("Not Recognized"), output.ToString());
             }
             else
             {
-                return (createError("Empty"), output.ToString());
+                var errors = check.check.Errors.Select(e => new PowerFxSuggestion(e.Kind.ToString(), e.Message, e.Span.Min, e.Span.Lim)).ToArray();
+                return (createError(string.Join("\n", errors.Select(e => e.ToString()))), check.text);
             }
         }
         catch (Exception ex)
@@ -203,7 +206,7 @@ public class PowerFxHost
         {
             var name = match.Groups["ident"].Value;
             var text = match.Groups["formula"].Value;
-            return (false, true, false, name, text, _engine.Check(expr));
+            return (false, true, false, name, text, _engine.Check(text));
         }
         // everything except single line comments
         else if (!Regex.IsMatch(expr, @"^\s*//") && Regex.IsMatch(expr, @"\w"))
