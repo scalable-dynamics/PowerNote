@@ -1,0 +1,226 @@
+/* /Components/Editor.razor.rz.scp.css */
+#monaco-editor[b-6b4pqluo0n] {
+    width: 100%;
+    height: 100%;
+}
+/* /Components/FileDrop.razor.rz.scp.css */
+#file-drop[b-u54g6k8ill] {
+    position: absolute;
+    inset: 0;
+}
+
+    #file-drop form[b-u54g6k8ill] {
+        position: absolute;
+        inset: 0;
+        cursor: default;
+    }
+
+    #file-drop b[b-u54g6k8ill] {
+        color: white;
+        margin-left: 4px;
+        line-height: 30px;
+    }
+
+    #file-drop form:hover[b-u54g6k8ill] {
+        border: dashed 4px blue;
+        color: blue;
+    }
+
+    #file-drop label[b-u54g6k8ill] {
+        position: absolute;
+        inset: 0;
+        background: transparent;
+    }
+/* /Components/Loader.razor.rz.scp.css */
+/* /Components/Menu.razor.rz.scp.css */
+.sidebar-menu[b-uc53x2v3se] {
+    flex: 1;
+    order: 1;
+    border-right: outset 4px white;
+    background: #eee;
+}
+
+    .sidebar-menu h3[b-uc53x2v3se] {
+        margin: 0;
+        text-align: center;
+        cursor: default;
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .sidebar-menu .go-back[b-uc53x2v3se] {
+        position: absolute;
+        line-height: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        color: navy;
+    }
+/* /Components/Preview.razor.rz.scp.css */
+
+.app-preview[b-nchy8w7how] {
+    position: fixed;
+    inset: 20%;
+    overflow: auto;
+    background-color: #161A42;
+    color: #DADBE2;
+    border: solid 4px #45496D;
+}
+
+    .app-preview *:first-child[b-nchy8w7how] {
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        margin-top: -20px;
+        cursor: pointer;
+        font-size: 20px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        color: white;
+        background-color: red;
+        border-radius: 50%;
+    }
+
+    .app-preview .powerapp-component[b-nchy8w7how] {
+        position: relative;
+        overflow: hidden;
+        border: solid 1px rgba(44,0,255,100);
+        white-space: nowrap;
+    }
+
+        .app-preview .powerapp-component:hover[b-nchy8w7how] {
+            overflow: auto;
+        }
+/* /Pages/Index.razor.rz.scp.css */
+.power-note-app[b-6ua24bgozm] {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    inset: 0;
+    position: fixed;
+    background-color: #0B0D21;
+}
+
+    .power-note-app header[b-6ua24bgozm] {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        order: 1;
+        max-height: 70px;
+        background-color: #22264C;
+    }
+
+        .power-note-app header .title[b-6ua24bgozm] {
+            flex: 5;
+            order: 1;
+            margin: 0;
+            line-height: 70px;
+            cursor: default;
+        }
+
+        .power-note-app header .files[b-6ua24bgozm] {
+            flex: 2;
+            order: 2;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .power-note-app header .files .file-types dl[b-6ua24bgozm] {
+                margin: 0;
+            }
+
+            .power-note-app header .files .file-types dt[b-6ua24bgozm] {
+                margin: 10px 0;
+            }
+
+            .power-note-app header .files.full-screen[b-6ua24bgozm] {
+                inset: 0;
+                position: fixed;
+                z-index: 1;
+            }
+
+                .power-note-app header .files.full-screen .file-types[b-6ua24bgozm] {
+                    position: relative;
+                    margin: 50px auto;
+                    padding: 0 30px;
+                    height: 250px;
+                    width: 350px;
+                    background-color: #0B0D21;
+                    border: solid 4px #45496D;
+                }
+
+                    .power-note-app header .files.full-screen .file-types img[b-6ua24bgozm] {
+                        width: 40px;
+                    }
+
+                    .power-note-app header .files.full-screen .file-types i[b-6ua24bgozm] {
+                        font-size: .8em;
+                        line-height: 30px;
+                        color: #3E3E42;
+                    }
+
+            .power-note-app header .files.top-right .file-types img[b-6ua24bgozm] {
+                width: 20px;
+            }
+
+            .power-note-app header .files.top-right .file-types dl[b-6ua24bgozm] {
+                text-align: right;
+            }
+
+            .power-note-app header .files.top-right .file-types dt[b-6ua24bgozm] {
+                margin-right: 10px;
+                font-size: .9em;
+            }
+
+            .power-note-app header .files.top-right .file-types dd[b-6ua24bgozm] {
+                float: right;
+                margin-right: 10px;
+                margin-inline-start: 0;
+                white-space: nowrap;
+                font-size: .8em;
+            }
+
+            .power-note-app header .files.top-right .file-types i[b-6ua24bgozm] {
+                display: none;
+            }
+
+    .power-note-app .app-object[b-6ua24bgozm] {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+    }
+
+        .power-note-app .app-object span[b-6ua24bgozm] {
+            flex: 10;
+            flex-grow: inherit;
+            line-height: 32px;
+        }
+
+        .power-note-app .app-object *:last-child[b-6ua24bgozm] {
+            flex: 1;
+            width: 30px;
+        }
+
+    .power-note-app main[b-6ua24bgozm] {
+        flex: 10;
+        display: flex;
+        flex-direction: row;
+        order: 2;
+    }
+
+        .power-note-app main aside[b-6ua24bgozm] {
+            flex: 1;
+            order: 1;
+            min-width: 250px;
+            max-width: 350px;
+            background-color: #0B0D21;
+            border-right: solid 4px #45496D;
+            overflow: auto;
+            max-height: 100vh;
+        }
+
+        .power-note-app main .content[b-6ua24bgozm] {
+            flex: 10;
+            order: 2;
+        }

@@ -1,0 +1,21 @@
+{
+  "name": "PowerNote",
+  "short_name": "PowerNote",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#161A42",
+  "theme_color": "#DADBE2",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "powernote-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "powernote-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}
