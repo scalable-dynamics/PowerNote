@@ -4,7 +4,7 @@
 
 Power Fx editor and file viewer
 
-[Online Version (https://mr365.app)](https://mr365.app)
+[Online Version (GitHub Pages)](https://scalable-dynamics.github.io/PowerNote/)
 
 ### Features
 - Create Power Fx formulas and check/eval the result
