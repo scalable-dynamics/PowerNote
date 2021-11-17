@@ -33,7 +33,7 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-skNxkID4zmmpOV7YhXY1+Z6AhfXDDIOowTKew0xxaD8=",
+      "hash": "sha256-FIK6p2x3Ndsh0L5e88gk9mgPpNXzrLLCDt13+vpQc6Y=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -113,15 +113,15 @@
       "url": "_framework\/Microsoft.PowerFx.Transport.Attributes.dll"
     },
     {
-      "hash": "sha256-tf2jwcTlZ7\/gAPP9Ae\/ZLjZVgyoz7O5Ic1DnvY987v4=",
+      "hash": "sha256-Qyk5yAg+of7\/Wn7QOYvocRZRuDuFtPWI5EJShwZMG04=",
       "url": "_framework\/Microsoft.PowerPlatform.Formulas.Tools.dll"
     },
     {
-      "hash": "sha256-ti\/uIvIyRoWT4xZkji++dYmKbhReDJDAVMQsR5lj+yE=",
+      "hash": "sha256-wZ3f+PRXwdYjQgDUZJDH0bSS6X3V+t1Ru4ytQBWAEHs=",
       "url": "_framework\/netstandard.dll"
     },
     {
-      "hash": "sha256-wqlPODSYjsSA8npo2v9m8E9zj842xpHL+sfEnTYCScE=",
+      "hash": "sha256-dX4CG11RpYiGMl71uaKPbwMfBVB85S3Z\/4qz6nW8Vmo=",
       "url": "_framework\/PowerNote.dll"
     },
     {
@@ -201,7 +201,7 @@
       "url": "_framework\/System.ObjectModel.dll"
     },
     {
-      "hash": "sha256-cxzL1\/KU352pDNxVIG7uMXFCi5MG9cJOAN1C5TdCuOA=",
+      "hash": "sha256-9J7Vua03JU2kk56PhUhKI0hr6n94JMGRmqXbXBcNY\/o=",
       "url": "_framework\/System.Private.CoreLib.dll"
     },
     {
@@ -329,5 +329,5 @@
       "url": "_content\/Microsoft.Fast.Components.FluentUI\/Microsoft.Fast.Components.FluentUI.lib.module.js"
     }
   ],
-  "version": "KeyqK0Be"
+  "version": "42gY0dzI"
 };
