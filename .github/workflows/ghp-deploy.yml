@@ -18,6 +18,9 @@ jobs:
     - name: Publish .NET Blazor Project
       run: dotnet publish src/PowerNote.csproj -c Release -o release --nologo
 
+    - name: Change base-tag in index.html from / to PowerNote for the GitHub Pages url scheme
+      run: sed -i 's/<base href="\/" \/>/<base href="\/PowerNote\/" \/>/g' release/wwwroot/index.html
+
     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
     - name: Add .nojekyll file
       run: touch release/wwwroot/.nojekyll
