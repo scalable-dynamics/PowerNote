@@ -33,7 +33,7 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-FIK6p2x3Ndsh0L5e88gk9mgPpNXzrLLCDt13+vpQc6Y=",
+      "hash": "sha256-W1mHg9WJbycwfqt0XKICHIiiXUZZyxxw+IvF3xQGGZc=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -121,7 +121,7 @@
       "url": "_framework\/netstandard.dll"
     },
     {
-      "hash": "sha256-dX4CG11RpYiGMl71uaKPbwMfBVB85S3Z\/4qz6nW8Vmo=",
+      "hash": "sha256-G62zTJgb4\/nbsjtjyV6APD9AlQ6ElTe3nX5tM2mWyMI=",
       "url": "_framework\/PowerNote.dll"
     },
     {
@@ -297,7 +297,7 @@
       "url": "images\/powerautomate.png"
     },
     {
-      "hash": "sha256-mw6aModVM9orWNC29JYrEG3bAqU7yRwMc67JZUnGioQ=",
+      "hash": "sha256-x1ONFwyUy7wjbNmhSx0Kew\/QVl6rgChkVvv2RVtKSc0=",
       "url": "index.css"
     },
     {
@@ -321,7 +321,7 @@
       "url": "powernote-512.png"
     },
     {
-      "hash": "sha256-6ZgTgfcPdGHPXxXjfSpBaQFeqhiLF9j2y842JG7ka9M=",
+      "hash": "sha256-hIikHCTFuK8y1xw+OjYINMIteh4XRoFbqNL0Pl+4id0=",
       "url": "scripts\/MonacoEditor.js"
     },
     {
@@ -329,5 +329,5 @@
       "url": "_content\/Microsoft.Fast.Components.FluentUI\/Microsoft.Fast.Components.FluentUI.lib.module.js"
     }
   ],
-  "version": "42gY0dzI"
+  "version": "Kt1EWxik"
 };
