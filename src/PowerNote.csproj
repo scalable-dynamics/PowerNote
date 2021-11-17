@@ -13,11 +13,16 @@
     <PackageReference Include="Microsoft.Fast.Components.FluentUI" Version="1.0.0" />
     <PackageReference Include="Microsoft.PowerFx.Core" Version="0.2.1-preview" />
     <PackageReference Include="Microsoft.PowerFx.Interpreter" Version="0.2.1-preview" />
-    <PackageReference Include="Microsoft.PowerPlatform.Formulas.Tools" Version="0.3.9-preview" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.5.1-rc">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.PowerPlatform.Formulas.Tools">
+      <HintPath>..\lib\Microsoft.PowerPlatform.Formulas.Tools.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
